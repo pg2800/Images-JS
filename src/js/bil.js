@@ -2,10 +2,13 @@
 	if(!$) throw "You need jQuery to run BIL";
 	var imagesElements = {};
 	function appendToCol(element, imagesElementID){
-		var imagesElement = imagesElements[imagesElementID];
-		$(imagesElementID).children(imagesElement.cols._identifier).each(function (){
-			
+		var imagesElement = imagesElements[imagesElementID],
+		arr = $(imagesElementID).children(imagesElement.cols._identifier);
+		arr.sort(function(a, b){
+			var aHeight = Number($(a).css("height").replace("px","")), bHeight = Number($(b).css("height").replace("px",""));
+			return ((aHeight < bHeight) ? -1 : ((aHeight > bHeight) ? 1 : 0));
 		});
+		$(arr[0]).append(element);
 	}
 	Object.defineProperty(window, "BIL", {
 		value: function (imagesElementID) {
