@@ -38,7 +38,7 @@ var IL = (function($){
 					link = document.createElement("a");
 					$(link).attr("href", imgSrc);
 					$(link).attr("title", imgSrc || "");
-					$(link).addClass(imgHoverCSS? "button" + imgHoverCSS : "");
+					$(link).addClass(imgHoverCSS? "button " + imgHoverCSS : "");
 				} 
 				image = document.createElement("img");
 				$(image).attr("src", imgSrc);
