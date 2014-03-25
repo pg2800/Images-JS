@@ -1,5 +1,5 @@
 (function($){
-	if(!$) throw "You need jQuery to run BIL";
+	if(!$) throw "You need jQuery to run IL";
 	var imagesElements = {};
 	function appendToCol(element, imagesElementID){
 		var imagesElement = imagesElements[imagesElementID],
@@ -10,7 +10,7 @@
 		});
 		$(arr[0]).append(element);
 	}
-	Object.defineProperty(window, "BIL", {
+	Object.defineProperty(window, "IL", {
 		value: function (imagesElementID) {
 			if(!document.getElementById(imagesElementID)) throw "Id not recognized within the DOM tree";
 			var parent = imagesElements[imagesElementID] = imagesElements[imagesElementID] || ($(imagesElementID).addClass("row"), {
