@@ -3,7 +3,7 @@ Images-JS
 
 JS library that uses jQuery, Bootstrap, HoverCSS to create a type of pinterest displayable images.
 
-V1.0 DEPLOYED.
+V1.0 DEPLOYED. [DEMO](http://garciamarin.github.io/wedding/#/about_us) All the way to the bottom
 
 Special Thanks: 
 
@@ -39,7 +39,7 @@ Simple blueprint example:
 </head>
 <body>
 	<div class="container">
-		<div id="yourChoise"></div>
+		<div id="yourChoice"></div>
 	</div>
 
 	<!-- Libraries -->
@@ -52,8 +52,8 @@ Simple blueprint example:
 
 	<!-- Your Scripts -->
 	<script type="text/javascript">
-		IL("#testingILJS").set({cols: 4});
-		IL("#testingILJS").add({
+		IL("#yourChoice").set({cols: 4});
+		IL("#yourChoice").add({
 			imgSrc:" ... ",
 			imgDesc:"Some Description",
 			link:true,
@@ -62,7 +62,7 @@ Simple blueprint example:
 			imgHoverCSS: "rotate"
 		});
 
-		IL("#testingILJS").add({
+		IL("#yourChoice").add({
 			imgSrc:" ... ",
 			imgDesc:"Some Description",
 			link:true,
@@ -70,7 +70,7 @@ Simple blueprint example:
 			imgTitle:"Some Title",
 			imgHoverCSS: "rotate"
 		});
-		IL("#testingILJS").add({
+		IL("#yourChoice").add({
 			imgSrc:" ... ",
 			imgDesc:"Some Description",
 			link:true,
