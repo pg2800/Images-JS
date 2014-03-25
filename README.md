@@ -5,7 +5,7 @@ JS library that uses jQuery, Bootstrap, HoverCSS to create a type of pinterest d
 
 V1.0 DEPLOYED.
 
-USES: 
+Special Thanks: 
 1. Twitter Bootstrap :: http://getbootstrap.com/css/#grid
 2. Hover.css :: http://ianlunn.github.io/Hover/
 3. jQuery
