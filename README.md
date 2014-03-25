@@ -6,14 +6,17 @@ JS library that uses jQuery, Bootstrap, HoverCSS to create a type of pinterest d
 V1.0 DEPLOYED.
 
 Special Thanks: 
+
 1. Twitter Bootstrap :: http://getbootstrap.com/css/#grid
+
 2. Hover.css :: http://ianlunn.github.io/Hover/
+
 3. jQuery
 
 CREATES:
 A function in the global scope called IL (ImagesLibrary).
 
-Stuff that is planed to be fixed on version 2.0:
+Stuff that is planed to be fixed on version 2.0 ...
 BUGS: Calculating where the image goes directly from the markup, the browser might add the images asynchronous (because it need to load them from the internet), so it might seem that height of a column is smaller than another and add it there.
 
 Features: Adding something else than images, maybe.
@@ -25,6 +28,7 @@ I still need to refactor the code. To add patterns and best practices.
 Simple blueprint example:
 ========================
 
+``` HTML
 <html>
 <head> 
 	<!-- Bootstrap's latest compiled and minified CSS -->
@@ -76,3 +80,4 @@ Simple blueprint example:
 		});
 	</script>
 </body>
+```
