@@ -3,7 +3,6 @@ var IL = (function($){
 	var imagesElements = {}, imagesObjects = {};
 
 	function appendToCol(element, imagesElementID){
-		console.log(arguments);
 		var imagesElement = imagesElements[imagesElementID],
 		arr = $(imagesElementID).children("."+imagesElement.cols._identifier);
 		arr = arr.sort(function(a, b){
