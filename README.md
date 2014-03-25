@@ -13,15 +13,12 @@ Special Thanks:
 CREATES:
 A function in the global scope called IL (ImagesLibrary).
 
-Stuff that is planed to be fixed on version 2.0 {
-	Still has bugs:
-	.. Calculating where the image goes directly from the markup, the browser might add the images asynchronous (because it need to load them from the internet), so it might seem that height of a column is smaller than another and add it there.
+Stuff that is planed to be fixed on version 2.0:
+BUGS: Calculating where the image goes directly from the markup, the browser might add the images asynchronous (because it need to load them from the internet), so it might seem that height of a column is smaller than another and add it there.
 
-	Still lacks of features:
-	.. Adding something else than images, maybe.
+Features: Adding something else than images, maybe.
 
-	I still need to refactor the code. To add patterns and best practices.
-}
+I still need to refactor the code. To add patterns and best practices.
 
 
 
@@ -30,7 +27,6 @@ Simple blueprint example:
 
 <html>
 <head> 
-	:: Add dependencies (HTML)
 	<!-- Bootstrap's latest compiled and minified CSS -->
 	<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 	<!-- HOVER CSS -->
@@ -42,7 +38,6 @@ Simple blueprint example:
 		<div id="yourChoise"></div>
 	</div>
 
-	:: More dependencies
 	<!-- Libraries -->
 	<!-- jQuery --> 
 	<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
