@@ -1,22 +1,25 @@
+// REVELAING MODULE variation
 var IL = (function($){
-	// Feature detection
-	if(!$) return "You need jQuery to run IL";
+	if(!$) return/*throw*/ "You need jQuery to run IL";
 
 	// Elements are were ImagesJS is going to insert the images.
 	// Objects is the object's FACADE returned for each element.
 	// Losing performance with closures.
 	// But because of the memoization of the elements and objects, we don't have to search nor create them every time.
-	var imagesElements = {}, imagesObjects = {};//, elementsFragments = {};
+	var imagesElements = {}, imagesObjects = {}, elementsFragments = {};
 
 	// Appends fragment clone to code
 	// Using fragments to improve performance
+	var imagesFragment;
 	function appendToCol(element, imagesElementID){
 		var imagesElement = imagesElements[imagesElementID],
 		arr = $(imagesElementID).children("."+imagesElement.cols._identifier);
+
 		arr = arr.sort(function(a, b){
 			var aHeight = Number($(a).css("height").replace("px","")), bHeight = Number($(b).css("height").replace("px",""));
 			return ((aHeight < bHeight) ? -1 : ((aHeight > bHeight) ? 1 : 0));
 		});
+
 		$(arr[0]).append(element);
 	}
 
@@ -39,6 +42,7 @@ var IL = (function($){
 					$(div).addClass("text-center");
 					$(imagesElementID).append(div);
 				}
+				return imagesObjects[imagesElementID];
 			},
 			// Adds the image to the element
 			add: function (options){
@@ -69,12 +73,14 @@ var IL = (function($){
 				$(row).append(col);
 
 				appendToCol(row, imagesElementID);
+				return imagesObjects[imagesElementID];
 			}
 			//addElement: function (el){/*This functionality was deprecated*/}
 			//addMany: function ([images]){/*This functionality will be implemented in version 2.0*/}
 		});
 	}
 	// FACADE that allows us to get the element to which we are going to add the images
+	// returns the SINGLETON object for this element
 	return  function (imagesElementID) {
 		if(!document.getElementById(imagesElementID.slice(1))) return/*throw*/ "Id not recognized within the DOM tree";
 		imagesElements[imagesElementID] = imagesElements[imagesElementID] || ($(imagesElementID).addClass("row"), {
