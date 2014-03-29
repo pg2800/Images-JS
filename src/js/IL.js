@@ -2,7 +2,7 @@
 var IL = (function($){
 	if(!$) return/*throw*/ "You need jQuery to run IL";
 
-	// Elements are were ImagesJS is going to insert the images.
+	// Elements are were ImagesJS is going to insert the images (images container).
 	// Objects is the object's FACADE returned for each element.
 	// Losing performance with closures.
 	// But because of the memoization of the elements and objects, we don't have to search nor create them every time.
@@ -30,7 +30,7 @@ var IL = (function($){
 		return imagesObjects[imagesElementID] || (imagesObjects[imagesElementID] = {
 			// Organizes that element into the correct display
 			set: function (options){
-				if(parent.cols._identifier != "col-sm-") return/*throw*/ "You can't set a image element more than once";
+				if(parent.cols._identifier != "col-sm-") return/*throw*/ "You can't set the images container more than once";
 				parent.cols._num = options.cols || 4;
 				if(parent.cols._num < 0 || parent.cols._num > 12 || 12 % parent.cols._num != 0) return/*throw*/ "Number of columns must be positive evenly divisor of 12";
 				parent.cols._length = 12 / parent.cols._num;
@@ -49,12 +49,13 @@ var IL = (function($){
 				if(!options || !options.imgSrc) return/*throw*/ "To add an image, you must specify options with at least imgSrc";
 				var imgSrc = options.imgSrc, imgDesc = options.imgDesc, linkBoolean = options.link, 
 				imgAlt = options.imgAlt, imgTitle = options.imgTitle, imgHoverCSS = options.imgHoverCSS,
-				link, image;
+				link = $("<div/>").addClass(imgHoverCSS? "button " + imgHoverCSS : ""), 
+				image = document.createElement("img");
+
 				if(linkBoolean){
-					link = document.createElement("a");
-					$(link).attr("href", imgSrc);
-					$(link).attr("title", imgSrc || "");
-					$(link).addClass(imgHoverCSS? "button " + imgHoverCSS : "");
+					$(link).append("<a/>")
+					.attr("href", imgSrc)
+					.attr("title", imgSrc || "");
 				} 
 				image = document.createElement("img");
 				$(image).attr("src", imgSrc);
