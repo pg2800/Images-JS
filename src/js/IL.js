@@ -47,31 +47,39 @@ var IL = (function($){
 			// Adds the image to the element
 			add: function (options){
 				if(!options || !options.imgSrc) return/*throw*/ "To add an image, you must specify options with at least imgSrc";
+				// Attributes of the image
 				var imgSrc = options.imgSrc, imgDesc = options.imgDesc, linkBoolean = options.link, 
-				imgAlt = options.imgAlt, imgTitle = options.imgTitle, imgHoverCSS = options.imgHoverCSS,
-				link = $("<div/>").addClass(imgHoverCSS? "button " + imgHoverCSS : ""), 
-				image = document.createElement("img");
+				imgAlt = options.imgAlt, imgTitle = options.imgTitle, imgHoverCSS = options.imgHoverCSS;
 
-				if(linkBoolean){
-					$(link).append("<a/>")
+				// Actual element that will hold the images
+				var imageContainer = $("<div/>")
+				.addClass(imgHoverCSS? "button " + imgHoverCSS : ""), 
+
+				// The image
+				image = $("<img/>")
+				.attr("src", imgSrc)
+				.attr("alt", imgAlt || "")
+				.addClass("img")
+				.addClass("img-responsive")
+				.addClass("img-thumbnail")
+				.addClass("col-xs-12"); // Firefox && Bootstrap bug workaround for responsiveness
+
+				// This variable is created just in case there is a link
+				// In case there isn't, this variable will point to the image container itself.
+				var link = imageContainer;
+				if(!linkBoolean){
+					link = $(imageContainer).append("<a/>")
+					.find("a")
 					.attr("href", imgSrc)
 					.attr("title", imgSrc || "");
 				} 
-				image = document.createElement("img");
-				$(image).attr("src", imgSrc);
-				$(image).attr("alt", imgAlt || "");
-				$(image).addClass("img");
-				$(image).addClass("img-responsive");
-				$(image).addClass("img-thumbnail");
-				$(image).addClass("col-xs-12"); // Firefox bug workaround for responsiveness with bootstrap
-				if(link) $(link).append(image);						
-				else link = image;
+				$(link).append(image);
 
-				var row = document.createElement("div"), col = document.createElement("div");
-				$(row).addClass("row");
-				$(col).addClass("col-sm-12");
-				$(col).append(link);
-				$(row).append(col);
+				var row = $("<div/>"), col = $("<div/>");
+				$(col).addClass("col-sm-12")
+				.append(imageContainer);
+				$(row).addClass("row")
+				.append(col);
 
 				appendToCol(row, imagesElementID);
 				return imagesObjects[imagesElementID];
