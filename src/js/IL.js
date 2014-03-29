@@ -10,17 +10,51 @@ var IL = (function($){
 
 	// Appends fragment clone to code
 	// Using fragments to improve performance
-	var imagesFragment;
-	function appendToCol(element, imagesElementID){
+	var imagesFragment
+	function appendToCol(imgRow, imagesElementID, imgElement){
 		var imagesElement = imagesElements[imagesElementID],
-		arr = $(imagesElementID).children("."+imagesElement.cols._identifier);
+		colInfo = imagesElement.colsInfo,
+		numCols = imagesElement.cols;
 
+		// colsInfo = {
+		// 	firstImage: undefined, 
+		// 	sibilingImage: undefined, 
+		// 	distance: 0,
+		// 	heights: [0,0,0,0,0,0,0,0,0,0,0,0],
+		// 	images: []
+		// }
+
+		colInfo.images.push(imgElement);
+		if(colInfo.images[0] && colInfo.images[numCols]) {
+			
+		}
+
+
+		var tempDistance = (function(){
+			if(colInfo.counter++ == 0){
+				colInfo.firstImage = imgElement;
+				return 0;
+			} 
+			else {
+				if(colInfo.counter < numCols) return 0;
+				if(colInfo.counter == numCols) colInfo.sibilingImage = imgElement;
+
+				var sibilingOffset = $(colInfo.sibilingImage).offset().top,
+				first = $(colInfo.firstImage),
+				firstOffset = first.offset().top,
+				firstHeight = first.css("height");
+
+				return sibilingOffset - (firstOffset + firstHeight);
+			}
+		})();
+		colInfo.distance = tempDistance > colInfo.distance? tempDistance: colInfo.distance;
+
+		var arr = $(imagesElementID).children("."+imagesElement.cols._identifier);
 		arr = arr.sort(function(a, b){
 			var aHeight = Number($(a).css("height").replace("px","")), bHeight = Number($(b).css("height").replace("px",""));
 			return ((aHeight < bHeight) ? -1 : ((aHeight > bHeight) ? 1 : 0));
 		});
-
-		$(arr[0]).append(element);
+		$(arr[0]).append(imgRow);
 	}
 
 	// This function returns a SINGLETON for each element to add images to.
@@ -42,6 +76,8 @@ var IL = (function($){
 					$(div).addClass("text-center");
 					$(imagesElementID).append(div);
 				}
+
+				// returns the "API" to add chainability
 				return imagesObjects[imagesElementID];
 			},
 			// Adds the image to the element
@@ -81,13 +117,13 @@ var IL = (function($){
 				$(row).addClass("row")
 				.append(col);
 
-				appendToCol(row, imagesElementID);
+				appendToCol(row, imagesElementID, image);
+
+				// returns the "API" to add chainability
 				return imagesObjects[imagesElementID];
 			}
-			//addElement: function (el){/*This functionality was deprecated*/}
-			//addMany: function ([images]){/*This functionality will be implemented in version 2.0*/}
 		});
-	}
+}
 	// FACADE that allows us to get the element to which we are going to add the images
 	// returns the SINGLETON object for this element
 	return  function (imagesElementID) {
@@ -98,6 +134,14 @@ var IL = (function($){
 				_identifier:"col-sm-",
 				_length:3
 			}
+		});
+		imagesElements[imagesElementID].colsInfo = imagesElements[imagesElementID].colsInfo || (imagesElements[imagesElementID].colsInfo = {
+			counter: 0,
+			firstImage: undefined, 
+			sibiling: undefined, 
+			distance: 0,
+			heights: [0,0,0,0,0,0,0,0,0,0,0,0],
+			images: []
 		});
 		return getObject(imagesElementID);
 	};
