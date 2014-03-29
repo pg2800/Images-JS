@@ -45,6 +45,7 @@ var IL = (function($){
 				$(image).addClass("img");
 				$(image).addClass("img-responsive");
 				$(image).addClass("img-thumbnail");
+				$(image).addClass("col-xs-12"); // Firefox bug workaround for responsiveness with bootstrap
 				if(link) $(link).append(image);						
 				else link = image;
 
