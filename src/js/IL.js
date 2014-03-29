@@ -77,7 +77,7 @@ var IL = (function($){
 	// FACADE that allows us to get the element to which we are going to add the images
 	return  function (imagesElementID) {
 		if(!document.getElementById(imagesElementID.slice(1))) return/*throw*/ "Id not recognized within the DOM tree";
-		imagesElesments[imagesElementID] = imagesElements[imagesElementID] || ($(imagesElementID).addClass("row"), {
+		imagesElements[imagesElementID] = imagesElements[imagesElementID] || ($(imagesElementID).addClass("row"), {
 			cols:{
 				_num:4,
 				_identifier:"col-sm-",
