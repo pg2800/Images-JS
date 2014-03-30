@@ -9,8 +9,7 @@
 var ImagesJS = (function($){
 	if(!$) return/*throw*/ "You need jQuery to run Images JS";
 
-	var imagesContainers = {}, imagesSingletons = {}, imagesContainersFragments = {};//,
-	// imageFragment = 
+	var imagesContainers = {}, imagesSingletons = {}, imagesContainersFragments = {};
 
 	// Appends fragment clone to code
 	// Using fragments to improve performance

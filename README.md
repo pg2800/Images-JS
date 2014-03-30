@@ -14,7 +14,7 @@ Special Thanks:
 3. jQuery
 
 CREATES:
-A function in the global scope called IL (ImagesLibrary).
+A function in the global scope called ImagesJS.
 
 Stuff that is planed to be fixed on version 2.0 ...
 BUGS: Calculating where the image goes directly from the markup, the browser might add the images asynchronous (because it need to load them from the internet), so it might seem that height of a column is smaller than another and add it there.
@@ -47,30 +47,29 @@ Simple blueprint example:
 	<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
 	<!-- Bootstrap --> 
 	<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-	<!-- IL JS --> 
-	<script type="text/javascript" src="assets/Images-JS/src/js/IL.js"></script>
+	<!-- ImagesJS JS --> 
+	<script type="text/javascript" src="assets/Images-JS/src/js/ImagesJS.js"></script>
 
 	<!-- Your Scripts -->
 	<script type="text/javascript">
-		IL("#yourChoice").set({cols: 4});
-		IL("#yourChoice").add({
+		ImagesJS("#yourChoice").set({cols: 4})
+		.add({
+			imgSrc:" ... ",
+			imgDesc:"Some Description",
+			link:true,
+			imgAlt:"Some Alt",
+			imgTitle:"Some Title",
+			imgHoverCSS: "rotate" // and many more with HoverCSS
+		})
+		.add({
 			imgSrc:" ... ",
 			imgDesc:"Some Description",
 			link:true,
 			imgAlt:"Some Alt",
 			imgTitle:"Some Title",
 			imgHoverCSS: "rotate"
-		});
-
-		IL("#yourChoice").add({
-			imgSrc:" ... ",
-			imgDesc:"Some Description",
-			link:true,
-			imgAlt:"Some Alt",
-			imgTitle:"Some Title",
-			imgHoverCSS: "rotate"
-		});
-		IL("#yourChoice").add({
+		})
+		.add({
 			imgSrc:" ... ",
 			imgDesc:"Some Description",
 			link:true,
