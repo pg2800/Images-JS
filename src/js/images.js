@@ -9,12 +9,55 @@
 var ImagesJS = (function($){
 	if(!$) return/*throw*/ "You need jQuery to run Images JS";
 
-	var imagesContainers = {}, imagesSingletons = {}, imagesContainersFragments = {};//,
-	// imageFragment = 
+	var imagesContainers = {}, imagesSingletons = {}, imagesContainersFragments = {},
+	imageFragmentWithLink = (function(){
+		var fragment = document.createDocumentFragment(),
+
+		imageContainer = $("<div/>")
+		.addClass("hoverAnimation"),
+
+		image = $("<img/>")
+		.addClass("img")
+		.addClass("img-responsive")
+		.addClass("img-thumbnail")
+		.addClass("col-xs-12"); // Firefox && Bootstrap bug workaround for responsiveness
+
+		var link = $(imageContainer).append("<a/>");
+		$(link).append(image);
+
+		var row = $("<div/>"), col = row.clone(true);
+		$(col).addClass("col-sm-12")
+		.append(imageContainer);
+		$(row).addClass("row")
+		.append(col);
+
+		return fragment.appendChild(row[0]);
+	})(),
+	imageFragment = (function(){
+		var fragment = document.createDocumentFragment(),
+
+		imageContainer = $("<div/>")
+		.addClass("hoverAnimation"),
+
+		image = $("<img/>")
+		.addClass("img")
+		.addClass("img-responsive")
+		.addClass("img-thumbnail")
+		.addClass("col-xs-12") // Firefox && Bootstrap bug workaround for responsiveness
+		.appendTo(imageContainer);
+
+		var row = $("<div/>"), col = row.clone(true);
+		$(col).addClass("col-sm-12")
+		.append(imageContainer);
+		$(row).addClass("row")
+		.append(col);
+
+		return fragment.appendChild(row[0]);
+	})();
 
 	// Appends fragment clone to code
 	// Using fragments to improve performance
-	function appendThisInto(imgRow, imagesContainerID){ //, imgElement
+	function appendThisInto(imgRow, imagesContainerID){
 		var imagesElement = imagesContainers[imagesContainerID];
 
 		// In v1.3.2 from jQuery and later release all comma-separated selectors will be returned in document order.
@@ -29,7 +72,7 @@ var ImagesJS = (function($){
 			}
 		});
 
-		$(column).append(imgRow);
+		$(column).append(imgRow.clone(true));
 	}
 
 	// This function returns a SINGLETON for each element to add images to.
@@ -70,45 +113,44 @@ var ImagesJS = (function($){
 				var imgSrc = options.imgSrc, imgDesc = options.imgDesc, linkBoolean = options.link, 
 				imgAlt = options.imgAlt, imgTitle = options.imgTitle, imgHoverCSS = options.imgHoverCSS;
 
-				// Actual element that will hold the images
-				// This is used to hold the Hover CSS classes
-				var imageContainer = $("<div/>")
-				.addClass(imgHoverCSS? "button " + imgHoverCSS : ""),
-
-				image = $("<img/>")
-				.attr("src", imgSrc)
-				.attr("alt", imgAlt || "")
-				.addClass("img")
-				.addClass("img-responsive")
-				.addClass("img-thumbnail")
-				.addClass("col-xs-12"); // Firefox && Bootstrap bug workaround for responsiveness
-
-				// This variable is created just in case there is a link
-				// In case there isn't, this variable will point to the image container itself.
-				var link = imageContainer;
+				var fragment, hover = imgHoverCSS? "button " + imgHoverCSS : "";
 				if(linkBoolean){
-					link = $(imageContainer).append("<a/>")
-					.find("a")
+					fragment = $(imageFragmentWithLink);
+					fragment.find(".hoverAnimation")
+					.addClass(hover);
+
+					fragment.find("img")
+					.attr("src", imgSrc)
+					.attr("alt", imgAlt || "");
+
+					fragment.find("a")
 					.attr("href", imgSrc)
 					.attr("title", imgSrc || "");
-				} 
-				$(link).append(image);
+				} else {
+					fragment = $(imageFragmentWithLink);
+					fragment.find(".hoverAnimation")
+					.addClass(hover);
 
-				var row = $("<div/>"), col = $("<div/>");
-				$(col).addClass("col-sm-12")
-				.append(imageContainer);
-				$(row).addClass("row")
-				.append(col);
+					fragment.find("img")
+					.attr("src", imgSrc)
+					.attr("alt", imgAlt || "");
+				}
 
-				image.on("load", function (){
-					appendThisInto(row, imagesContainerID);
-				});
+				(function(copy){
+					fragment.find("img").one("load", function (){
+						appendThisInto(copy, imagesContainerID);
+					});
+				})(fragment);
+
+				//Remove classes from original fragment
+				fragment.find(".hoverAnimation")
+				.removeClass(hover);
 
 				// returns the "API" to add chainability
 				return imagesSingletons[imagesContainerID];
 			}
 		});
-}
+	}
 
 	// FACADE that allows us to get the element to which we are going to add the images
 	// returns the SINGLETON object for this element
