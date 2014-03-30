@@ -1,4 +1,4 @@
-// REVELAING MODULE variation
+// FLY WEIGHT Pattern variation
 var IL = (function($){
 	if(!$) return/*throw*/ "You need jQuery to run IL";
 
@@ -6,62 +6,29 @@ var IL = (function($){
 	// Objects is the object's FACADE returned for each element.
 	// Losing performance with closures.
 	// But because of the memoization of the elements and objects, we don't have to search nor create them every time.
-	var imagesElements = {}, imagesObjects = {}, elementsFragments = {};
+	var imagesContainers = {}, imagesObjects = {}, elementsFragments = {};
 
 	// Appends fragment clone to code
 	// Using fragments to improve performance
-	var imagesFragment
-	function appendToCol(imgRow, imagesElementID, imgElement){
-		var imagesElement = imagesElements[imagesElementID],
-		colInfo = imagesElement.colsInfo,
-		numCols = imagesElement.cols;
+	var imagesFragment;
+	function appendThisInto(imgRow, imagesContainerID){ //, imgElement
+		var imagesElement = imagesContainers[imagesContainerID];
 
-		// colsInfo = {
-		// 	firstImage: undefined, 
-		// 	sibilingImage: undefined, 
-		// 	distance: 0,
-		// 	heights: [0,0,0,0,0,0,0,0,0,0,0,0],
-		// 	images: []
-		// }
-
-		colInfo.images.push(imgElement);
-		if(colInfo.images[0] && colInfo.images[numCols]) {
-			
-		}
-
-
-		var tempDistance = (function(){
-			if(colInfo.counter++ == 0){
-				colInfo.firstImage = imgElement;
-				return 0;
-			} 
-			else {
-				if(colInfo.counter < numCols) return 0;
-				if(colInfo.counter == numCols) colInfo.sibilingImage = imgElement;
-
-				var sibilingOffset = $(colInfo.sibilingImage).offset().top,
-				first = $(colInfo.firstImage),
-				firstOffset = first.offset().top,
-				firstHeight = first.css("height");
-
-				return sibilingOffset - (firstOffset + firstHeight);
-			}
-		})();
-		colInfo.distance = tempDistance > colInfo.distance? tempDistance: colInfo.distance;
-
-		var arr = $(imagesElementID).children("."+imagesElement.cols._identifier);
+		// In v1.3.2 from jQuery and later release all comma-separated selectors will be returned in document order.
+		var arr = $(imagesContainerID).children("."+imagesElement.cols._identifier);
 		arr = arr.sort(function(a, b){
 			var aHeight = Number($(a).css("height").replace("px","")), bHeight = Number($(b).css("height").replace("px",""));
 			return ((aHeight < bHeight) ? -1 : ((aHeight > bHeight) ? 1 : 0));
 		});
 		$(arr[0]).append(imgRow);
+
 	}
 
 	// This function returns a SINGLETON for each element to add images to.
 	// Implements a variation of the REVEALING MODULE pattern
-	function getObject(imagesElementID){
-		var parent = imagesElements[imagesElementID];
-		return imagesObjects[imagesElementID] || (imagesObjects[imagesElementID] = {
+	function getObject(imagesContainerID){
+		var parent = imagesContainers[imagesContainerID];
+		return imagesObjects[imagesContainerID] || (imagesObjects[imagesContainerID] = {
 			// Organizes that element into the correct display
 			set: function (options){
 				if(parent.cols._identifier != "col-sm-") return/*throw*/ "You can't set the images container more than once";
@@ -70,15 +37,17 @@ var IL = (function($){
 				parent.cols._length = 12 / parent.cols._num;
 				parent.cols._identifier += parent.cols._length;
 				var index;
+
+				// Create and append columns
 				for(index = 0; index<parent.cols._num; index++){
-					var div = document.createElement("div");
-					$(div).addClass(parent.cols._identifier);
-					$(div).addClass("text-center");
-					$(imagesElementID).append(div);
+					var div = $("<div/>");
+					div.addClass(parent.cols._identifier)
+					.addClass("text-center");
+					$(imagesContainerID).append(div);
 				}
 
 				// returns the "API" to add chainability
-				return imagesObjects[imagesElementID];
+				return imagesObjects[imagesContainerID];
 			},
 			// Adds the image to the element
 			add: function (options){
@@ -89,9 +58,8 @@ var IL = (function($){
 
 				// Actual element that will hold the images
 				var imageContainer = $("<div/>")
-				.addClass(imgHoverCSS? "button " + imgHoverCSS : ""), 
+				.addClass(imgHoverCSS? "button " + imgHoverCSS : ""),
 
-				// The image
 				image = $("<img/>")
 				.attr("src", imgSrc)
 				.attr("alt", imgAlt || "")
@@ -117,33 +85,27 @@ var IL = (function($){
 				$(row).addClass("row")
 				.append(col);
 
-				appendToCol(row, imagesElementID, image);
+				image.on("load", function (){
+					appendThisInto(row, imagesContainerID);//, image
+				});
 
 				// returns the "API" to add chainability
-				return imagesObjects[imagesElementID];
+				return imagesObjects[imagesContainerID];
 			}
 		});
 }
 	// FACADE that allows us to get the element to which we are going to add the images
 	// returns the SINGLETON object for this element
-	return  function (imagesElementID) {
-		if(!document.getElementById(imagesElementID.slice(1))) return/*throw*/ "Id not recognized within the DOM tree";
-		imagesElements[imagesElementID] = imagesElements[imagesElementID] || ($(imagesElementID).addClass("row"), {
+	return  function (imagesContainerID) {
+		if(!document.getElementById(imagesContainerID.slice(1))) return/*throw*/ "Id not recognized within the DOM tree";
+		imagesContainers[imagesContainerID] = imagesContainers[imagesContainerID] || ($(imagesContainerID).addClass("row"), {
 			cols:{
 				_num:4,
 				_identifier:"col-sm-",
 				_length:3
 			}
 		});
-		imagesElements[imagesElementID].colsInfo = imagesElements[imagesElementID].colsInfo || (imagesElements[imagesElementID].colsInfo = {
-			counter: 0,
-			firstImage: undefined, 
-			sibiling: undefined, 
-			distance: 0,
-			heights: [0,0,0,0,0,0,0,0,0,0,0,0],
-			images: []
-		});
-		return getObject(imagesElementID);
+		return getObject(imagesContainerID);
 	};
 
 })(jQuery);
