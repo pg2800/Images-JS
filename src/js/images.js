@@ -1,27 +1,32 @@
 // FLY WEIGHT Pattern variation
-var IL = (function($){
-	if(!$) return/*throw*/ "You need jQuery to run IL";
+var ImagesJS = (function($){
+	if(!$) return/*throw*/ "You need jQuery to run Images JS";
 
 	// Elements are were ImagesJS is going to insert the images (images container).
 	// Objects is the object's FACADE returned for each element.
 	// Losing performance with closures.
 	// But because of the memoization of the elements and objects, we don't have to search nor create them every time.
-	var imagesContainers = {}, imagesObjects = {}, elementsFragments = {};
+	var imagesContainers = {}, imagesObjects = {}, elementsFragments = {};//,
+	// imageFragment = 
 
 	// Appends fragment clone to code
 	// Using fragments to improve performance
-	var imagesFragment;
 	function appendThisInto(imgRow, imagesContainerID){ //, imgElement
 		var imagesElement = imagesContainers[imagesContainerID];
 
 		// In v1.3.2 from jQuery and later release all comma-separated selectors will be returned in document order.
-		var arr = $(imagesContainerID).children("."+imagesElement.cols._identifier);
-		arr = arr.sort(function(a, b){
-			var aHeight = Number($(a).css("height").replace("px","")), bHeight = Number($(b).css("height").replace("px",""));
-			return ((aHeight < bHeight) ? -1 : ((aHeight > bHeight) ? 1 : 0));
-		});
-		$(arr[0]).append(imgRow);
+		var columns = $(imagesContainerID).children("."+imagesElement.cols._identifier),
+		column = columns[0], column_height = Number($(column).css("height").replace("px",""));
 
+		columns.each(function (index, element){
+			var element_height = Number($(element).css("height").replace("px",""));
+			if(element_height < column_height) {
+				column = element;
+				column_height = element_height;
+			}
+		});
+
+		$(column).append(imgRow);
 	}
 
 	// This function returns a SINGLETON for each element to add images to.
@@ -57,6 +62,7 @@ var IL = (function($){
 				imgAlt = options.imgAlt, imgTitle = options.imgTitle, imgHoverCSS = options.imgHoverCSS;
 
 				// Actual element that will hold the images
+				// This is used to hold the Hover CSS classes
 				var imageContainer = $("<div/>")
 				.addClass(imgHoverCSS? "button " + imgHoverCSS : ""),
 
@@ -86,14 +92,15 @@ var IL = (function($){
 				.append(col);
 
 				image.on("load", function (){
-					appendThisInto(row, imagesContainerID);//, image
+					appendThisInto(row, imagesContainerID);
 				});
 
 				// returns the "API" to add chainability
 				return imagesObjects[imagesContainerID];
 			}
 		});
-}
+	}
+
 	// FACADE that allows us to get the element to which we are going to add the images
 	// returns the SINGLETON object for this element
 	return  function (imagesContainerID) {
