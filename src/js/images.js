@@ -1,12 +1,15 @@
+/*!
+ * Images.js
+ * Version: 1.1.0
+ * Author: Pablo Garcia C
+ * Github: https://github.com/pg2800/Images-JS
+ */
+
 // FLY WEIGHT Pattern variation
 var ImagesJS = (function($){
 	if(!$) return/*throw*/ "You need jQuery to run Images JS";
 
-	// Elements are were ImagesJS is going to insert the images (images container).
-	// Objects is the object's FACADE returned for each element.
-	// Losing performance with closures.
-	// But because of the memoization of the elements and objects, we don't have to search nor create them every time.
-	var imagesContainers = {}, imagesObjects = {}, elementsFragments = {};//,
+	var imagesContainers = {}, imagesSingletons = {}, imagesContainersFragments = {};//,
 	// imageFragment = 
 
 	// Appends fragment clone to code
@@ -33,8 +36,8 @@ var ImagesJS = (function($){
 	// Implements a variation of the REVEALING MODULE pattern
 	function getObject(imagesContainerID){
 		var parent = imagesContainers[imagesContainerID];
-		return imagesObjects[imagesContainerID] || (imagesObjects[imagesContainerID] = {
-			// Organizes that element into the correct display
+		return imagesSingletons[imagesContainerID] || (imagesSingletons[imagesContainerID] = {
+			// Initializes the columns
 			set: function (options){
 				if(parent.cols._identifier != "col-sm-") return/*throw*/ "You can't set the images container more than once";
 				parent.cols._num = options.cols || 4;
@@ -43,16 +46,22 @@ var ImagesJS = (function($){
 				parent.cols._identifier += parent.cols._length;
 				var index;
 
-				// Create and append columns
-				for(index = 0; index<parent.cols._num; index++){
-					var div = $("<div/>");
-					div.addClass(parent.cols._identifier)
-					.addClass("text-center");
-					$(imagesContainerID).append(div);
+				// Creates and appends columns
+				// Memoizing fragments to clone them if more than one container are added with the same number of columns
+				var fragment = imagesContainersFragments[parent.cols._num];
+				if(!fragment){
+					fragment = imagesContainersFragments[parent.cols._num] = document.createDocumentFragment();
+					for(index = 0; index<parent.cols._num; index++){
+						var div = document.createElement("div");
+						$(div).addClass(parent.cols._identifier)
+						.addClass("text-center");
+						fragment.appendChild(div);
+					}
 				}
+				$(imagesContainerID).append(fragment.cloneNode(true));
 
 				// returns the "API" to add chainability
-				return imagesObjects[imagesContainerID];
+				return imagesSingletons[imagesContainerID];
 			},
 			// Adds the image to the element
 			add: function (options){
@@ -77,7 +86,7 @@ var ImagesJS = (function($){
 				// This variable is created just in case there is a link
 				// In case there isn't, this variable will point to the image container itself.
 				var link = imageContainer;
-				if(!linkBoolean){
+				if(linkBoolean){
 					link = $(imageContainer).append("<a/>")
 					.find("a")
 					.attr("href", imgSrc)
@@ -96,10 +105,10 @@ var ImagesJS = (function($){
 				});
 
 				// returns the "API" to add chainability
-				return imagesObjects[imagesContainerID];
+				return imagesSingletons[imagesContainerID];
 			}
 		});
-	}
+}
 
 	// FACADE that allows us to get the element to which we are going to add the images
 	// returns the SINGLETON object for this element
