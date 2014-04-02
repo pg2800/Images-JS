@@ -73,12 +73,9 @@ var ImagesJS = (function($){
 				// This is used to hold the Hover CSS classes
 				var imageContainer = $("<div/>")
 
-
 				// ME QUEDE VIENDO AQUI LO DE TRATAR DE HACER QUE EL BOTON DE HOVER SEA RESPONSIVE
 
-
-
-				.addClass(imgHoverCSS? "button " + imgHoverCSS + " img-responsive" : ""),  
+				.addClass(imgHoverCSS? "button " + imgHoverCSS : ""),  
 
 				image = $("<img/>")
 				.attr("src", imgSrc)
@@ -95,7 +92,7 @@ var ImagesJS = (function($){
 					link = $(imageContainer).append("<a/>")
 					.find("a")
 					.attr("href", imgSrc)
-					.attr("title", imgSrc || "");
+					.attr("title", imgTitle || "");
 				} 
 				$(link).append(image);
 
@@ -118,14 +115,16 @@ var ImagesJS = (function($){
 	// FACADE that allows us to get the element to which we are going to add the images
 	// returns the SINGLETON object for this element
 	return  function (imagesContainerID) {
-		if(!document.getElementById(imagesContainerID.slice(1))) /*return*/throw "Id not recognized within the DOM tree";
-		imagesContainers[imagesContainerID] = imagesContainers[imagesContainerID] || ($(imagesContainerID).addClass("row"), {
+		var container;
+		if(!(container = $(imagesContainerID))) /*return*/throw "Id not recognized within the DOM tree";
+		container.addClass("row").css("max-width","100%").css("margin-left", "auto").css("margin-right", "auto");
+		imagesContainers[imagesContainerID] = imagesContainers[imagesContainerID] || {
 			cols:{
 				_num:4,
 				_identifier:"col-sm-",
 				_length:3
 			}
-		});
+		};
 		return getObject(imagesContainerID);
 	};
 
