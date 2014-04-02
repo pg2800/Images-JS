@@ -72,11 +72,7 @@ var ImagesJS = (function($){
 				// Actual element that will hold the images
 				// This is used to hold the Hover CSS classes
 				var imageContainer = $("<div/>")
-
-				// ME QUEDE VIENDO AQUI LO DE TRATAR DE HACER QUE EL BOTON DE HOVER SEA RESPONSIVE
-
 				.addClass(imgHoverCSS? "button " + imgHoverCSS : ""),  
-
 				image = $("<img/>")
 				.attr("src", imgSrc)
 				.attr("alt", imgAlt || "")
