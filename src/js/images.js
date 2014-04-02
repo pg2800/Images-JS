@@ -7,7 +7,7 @@
 
 // FLY WEIGHT Pattern variation
 var ImagesJS = (function($){
-	if(!$) return/*throw*/ "You need jQuery to run Images JS";
+	if(!$) /*return*/throw "You need jQuery to run Images JS";
 
 	var imagesContainers = {}, imagesSingletons = {}, imagesContainersFragments = {};
 
@@ -38,9 +38,9 @@ var ImagesJS = (function($){
 		return imagesSingletons[imagesContainerID] || (imagesSingletons[imagesContainerID] = {
 			// Initializes the columns
 			set: function (options){
-				if(parent.cols._identifier != "col-sm-") return/*throw*/ "You can't set the images container more than once";
+				if(parent.cols._identifier != "col-sm-") /*return*/throw "You can't set the images container more than once";
 				parent.cols._num = options.cols || 4;
-				if(parent.cols._num < 0 || parent.cols._num > 12 || 12 % parent.cols._num != 0) return/*throw*/ "Number of columns must be positive evenly divisor of 12";
+				if(parent.cols._num < 0 || parent.cols._num > 12 || 12 % parent.cols._num != 0) /*return*/throw "Number of columns must be positive evenly divisor of 12";
 				parent.cols._length = 12 / parent.cols._num;
 				parent.cols._identifier += parent.cols._length;
 				var index;
@@ -64,7 +64,7 @@ var ImagesJS = (function($){
 			},
 			// Adds the image to the element
 			add: function (options){
-				if(!options || !options.imgSrc) return/*throw*/ "To add an image, you must specify options with at least imgSrc";
+				if(!options || !options.imgSrc) /*return*/throw "To add an image, you must specify options with at least imgSrc";
 				// Attributes of the image
 				var imgSrc = options.imgSrc, imgDesc = options.imgDesc, linkBoolean = options.link, 
 				imgAlt = options.imgAlt, imgTitle = options.imgTitle, imgHoverCSS = options.imgHoverCSS;
@@ -112,7 +112,7 @@ var ImagesJS = (function($){
 	// FACADE that allows us to get the element to which we are going to add the images
 	// returns the SINGLETON object for this element
 	return  function (imagesContainerID) {
-		if(!document.getElementById(imagesContainerID.slice(1))) return/*throw*/ "Id not recognized within the DOM tree";
+		if(!document.getElementById(imagesContainerID.slice(1))) /*return*/throw "Id not recognized within the DOM tree";
 		imagesContainers[imagesContainerID] = imagesContainers[imagesContainerID] || ($(imagesContainerID).addClass("row"), {
 			cols:{
 				_num:4,
