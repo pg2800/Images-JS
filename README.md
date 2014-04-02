@@ -1,7 +1,7 @@
 Images-JS
 =========
 
-JavaScript library that uses jQuery, Bootstrap and HoverCSS to create a type of pinterest displayable images.
+JavaScript library that uses jQuery, Bootstrap and HoverCSS to display images dynamically.
 
 v1.1.3 Released. [DEMO](http://garciamarin.github.io/wedding/#/about_us) All the way to the bottom.
 
