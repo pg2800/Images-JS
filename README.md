@@ -40,10 +40,6 @@ Future Testing:
 
 Features: Adding something else than images, maybe.
 
-I still need to refactor the code. To add patterns and best practices.
-
-
-
 Simple blueprint example:
 ========================
 
