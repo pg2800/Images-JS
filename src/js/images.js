@@ -13,7 +13,7 @@ var ImagesJS = (function($){
 
 	// Appends fragment clone to code
 	// Using fragments to improve performance
-	function appendThisInto(imgRow, imagesContainerID){ //, imgElement
+	function appendThisInto(imgRow, imagesContainerID){
 		var imagesElement = imagesContainers[imagesContainerID];
 
 		// In v1.3.2 from jQuery and later release all comma-separated selectors will be returned in document order.
@@ -111,8 +111,8 @@ var ImagesJS = (function($){
 	// FACADE that allows us to get the element to which we are going to add the images
 	// returns the SINGLETON object for this element
 	return  function (imagesContainerID) {
-		var container;
-		if(!(container = $(imagesContainerID))) /*return*/throw "Id not recognized within the DOM tree";
+		var container = $(imagesContainerID);
+		if(!container[0]) /*return*/throw "Id not recognized within the DOM tree";
 		container.addClass("row").css("max-width","100%").css("margin-left", "auto").css("margin-right", "auto");
 		imagesContainers[imagesContainerID] = imagesContainers[imagesContainerID] || {
 			cols:{
