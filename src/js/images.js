@@ -112,7 +112,7 @@ var ImagesJS = (function($){
 	// returns the SINGLETON object for this element
 	return  function (imagesContainerID) {
 		var container = $(imagesContainerID);
-		if(!container[0]) /*return*/throw "ImagesJS :: Id not recognized within the DOM tree";
+		if(!container[0]) /*return*/throw "ImagesJS :: Id '"+imagesContainerID+"' not recognized within the DOM tree";
 		container.addClass("row").css("max-width","100%").css("margin-left", "auto").css("margin-right", "auto");
 		imagesContainers[imagesContainerID] = imagesContainers[imagesContainerID] || {
 			cols:{
