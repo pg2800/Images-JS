@@ -32,6 +32,7 @@ v1.2:
 v2.0:  
 2. Performance wise: Fragments are going to be added to insert the images to the DOM. The idea of this library is to actually add a lot of images dynamically, there is a good change that there are a lot of images, so this is going to be added to improve performance.  
 3. Demo with github pages.  
+4. Compatibility with AngularJS
 
 Features not considered yet:  
 1. Change the class (or add more) of the columns sizes. Currently forced to col-sm-x (this is because the calculation of columns are made with the number of columns set in the initialization). This means to be able to do class="col-sm-4, col-md-3" to the columns.  
