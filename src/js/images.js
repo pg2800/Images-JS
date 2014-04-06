@@ -6,7 +6,7 @@
  */
 
 // FLY WEIGHT Pattern variation
-var ImagesJS = (function($){
+var ImagesJS = (function($, undefined){
 	if(!$) /*return*/throw "ImagesJS :: You need jQuery to run Images JS";
 
 	var imagesContainers = {}, imagesSingletons = {}, imagesContainersFragments = {};
