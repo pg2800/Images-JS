@@ -13,7 +13,7 @@ var ImagesJS = (function($){
 
 	// Appends fragment clone to code
 	// Using fragments to improve performance
-	function appendThisInto(imgRow, imagesContainerID){
+	function appendThisInto(imgRow, imagesContainerID, prepend){
 		var imagesElement = imagesContainers[imagesContainerID];
 
 		// In v1.3.2 from jQuery and later release all comma-separated selectors will be returned in document order.
@@ -27,8 +27,8 @@ var ImagesJS = (function($){
 				column_height = element_height;
 			}
 		});
-
-		$(column).append(imgRow);
+		if(prepend) $(column).prepend(imgRow);
+		else $(column).append(imgRow);
 	}
 
 	// This function returns a SINGLETON for each element to add images to.
@@ -45,6 +45,7 @@ var ImagesJS = (function($){
 			set: function (options){
 				if(parent.cols._identifier != "col-sm-") throw "ImagesJS :: You are initializing the images container more than once";
 				parent.cols._num = options.cols || 4;
+				parent.prepend = options.prepend || false;
 				if(parent.cols._num < 0 || parent.cols._num > 12 || 12 % parent.cols._num != 0) /*return*/throw "ImagesJS :: Number of columns must be positive evenly divisor of 12";
 				parent.cols._length = 12 / parent.cols._num;
 				parent.cols._identifier += parent.cols._length;
@@ -72,7 +73,8 @@ var ImagesJS = (function($){
 				if(!options || !options.imgSrc) /*return*/throw "ImagesJS :: To add an image, you must specify options with at least imgSrc";
 				// Attributes of the image
 				var imgSrc = options.imgSrc, imgDesc = options.imgDesc, linkBoolean = options.link, 
-				imgAlt = options.imgAlt, imgTitle = options.imgTitle, imgHoverCSS = options.imgHoverCSS;
+				imgAlt = options.imgAlt, imgTitle = options.imgTitle, imgHoverCSS = options.imgHoverCSS,
+				prepend = options.prepend || imagesContainers[imagesContainerID].prepend;
 
 				// Actual element that will hold the images
 				// This is used to hold the Hover CSS classes
@@ -104,7 +106,7 @@ var ImagesJS = (function($){
 				.append(col);
 
 				image.on("load", function (){
-					appendThisInto(row, imagesContainerID);
+					appendThisInto(row, imagesContainerID, prepend);
 				});
 
 				// returns the "API" to add chainability
