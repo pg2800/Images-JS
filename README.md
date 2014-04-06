@@ -67,8 +67,8 @@ Simple blueprint example:
 
 	<!-- Your Scripts -->
 	<script type="text/javascript">
-		// if your site is dynamical, I recommend destroying the container before setting it.
-		ImagesJS("#yourChoice").destroy(); 
+		// if your site is dynamical, I recommend clearing the container before setting it.
+		ImagesJS("#yourChoice").clear(); 
 		ImagesJS("#yourChoice").set({
 			cols: 4,
 			prepend: false // by default it is set to false
@@ -98,6 +98,24 @@ Simple blueprint example:
 			imgAlt:"Some Alt",
 			imgTitle:"Some Title",
 			imgHoverCSS: "rotate"
+		});
+
+		// Different approach:
+		ImagesJS("#differentApproach").clear(); // In case we switch windows.
+		ImagesJS("#differentApproach").set({
+			cols: 4,
+			prepend: false
+		});
+		
+		["http://.../someImage.jpg", "http://.../someImage.jpg", "http://.../someImage.jpg", 
+		"http://.../someImage.jpg", "http://.../someImage.jpg", "http://.../someImage.jpg", 
+		"http://.../someImage.jpg", "http://.../someImage.jpg", "http://.../someImage.jpg", 
+		"http://.../someImage.jpg", "http://.../someImage.jpg", "http://.../someImage.jpg", 
+		"http://.../someImage.jpg"].forEach(function(v){
+			ImagesJS("#differentApproach").add({
+				imgSrc: v,
+				imgHoverCSS: "rotate"
+			});
 		});
 	</script>
 </body>
