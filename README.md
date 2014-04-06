@@ -22,9 +22,10 @@ Bugs fixed:
 	This allows ImagesJS to correctly display the images in the right collumns, because it uses the actualy height of the column to calculate where the next image goes in.  
 	Also this helps the browser insert images as they are loaded so we don't se empty spaces.  
 2. The container is modified to contain a class of row, a max-width (set to a 100%) for responsiveness sake. It used to go over the boundaries of the document.  
+3. There is a new method added to be able to destroy the container, which empties the container and "unmemoizes" it.
 Improvements:  
-3. Margin left and right are set to 'auto' to center the container correctly.  
-4. Fragments are used when using multiple image containers, if one with the same number of cols is repeated, a fragment is used. This is to boost performance when inserting images.  
+4. Margin left and right are set to 'auto' to center the container correctly.  
+5. Fragments are used when using multiple image containers, if one with the same number of cols is repeated, a fragment is used. This is to boost performance when inserting images.  
 
 Future improvements:  
 v1.2:  
@@ -69,6 +70,8 @@ Simple blueprint example:
 
 	<!-- Your Scripts -->
 	<script type="text/javascript">
+		<!-- if your site is dynamical, I recommend destroying the container before setting it. -->
+		ImagesJS("#yourChoice").destroy(); 
 		ImagesJS("#yourChoice").set({cols: 4})
 		.add({
 			imgSrc:" ... ",
