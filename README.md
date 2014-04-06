@@ -65,14 +65,14 @@ Simple blueprint example:
 
 	<!-- Your Scripts -->
 	<script type="text/javascript">
-		<!-- if your site is dynamical, I recommend destroying the container before setting it. -->
+		// if your site is dynamical, I recommend destroying the container before setting it.
 		ImagesJS("#yourChoice").destroy(); 
 		ImagesJS("#yourChoice").set({
 			cols: 4,
-			prepend: false <!-- by default it is set to false -->
+			prepend: false // by default it is set to false
 		})
 		.add({
-			prepend: false, <!-- by default it is set to false -->
+			prepend: false, // by default it is set to false
 			imgSrc:" ... ",
 			imgDesc:"Some Description",
 			link:true,
@@ -81,7 +81,7 @@ Simple blueprint example:
 			imgHoverCSS: "rotate" // and many more with HoverCSS
 		})
 		.add({
-			prepend: true, <!-- by default it is set to false -->
+			prepend: true, // by default it is set to false
 			imgSrc:" ... ",
 			imgDesc:"Some Description",
 			link:true,
