@@ -80,6 +80,7 @@ Simple blueprint example:
 			prepend: false <!-- by default it is set to false -->
 		})
 		.add({
+			prepend: false, <!-- by default it is set to false -->
 			imgSrc:" ... ",
 			imgDesc:"Some Description",
 			link:true,
@@ -88,6 +89,7 @@ Simple blueprint example:
 			imgHoverCSS: "rotate" // and many more with HoverCSS
 		})
 		.add({
+			prepend: true, <!-- by default it is set to false -->
 			imgSrc:" ... ",
 			imgDesc:"Some Description",
 			link:true,
