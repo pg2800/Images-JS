@@ -36,9 +36,14 @@ var ImagesJS = (function($){
 	function getObject(imagesContainerID){
 		var parent = imagesContainers[imagesContainerID];
 		return imagesSingletons[imagesContainerID] || (imagesSingletons[imagesContainerID] = {
+			destroy: function (){
+				imagesContainers[imagesContainerID] = undefined;
+				imagesSingletons[imagesContainerID] = undefined;
+				$(imagesContainerID).empty();
+			},
 			// Initializes the columns
 			set: function (options){
-				if(parent.cols._identifier != "col-sm-") /*return*/throw "ImagesJS :: You can't set the images container more than once";
+				if(parent.cols._identifier != "col-sm-") throw "ImagesJS :: You are initializing the images container more than once";
 				parent.cols._num = options.cols || 4;
 				if(parent.cols._num < 0 || parent.cols._num > 12 || 12 % parent.cols._num != 0) /*return*/throw "ImagesJS :: Number of columns must be positive evenly divisor of 12";
 				parent.cols._length = 12 / parent.cols._num;
@@ -106,13 +111,14 @@ var ImagesJS = (function($){
 				return imagesSingletons[imagesContainerID];
 			}
 		});
-}
+		//
+	}
 
 	// FACADE that allows us to get the element to which we are going to add the images
 	// returns the SINGLETON object for this element
 	return  function (imagesContainerID) {
 		var container = $(imagesContainerID);
-		if(!container[0]) /*return*/throw "ImagesJS :: Id '"+imagesContainerID+"' not recognized within the DOM tree";
+		if(!container[0]) throw "ImagesJS :: Id '"+imagesContainerID+"' not recognized within the DOM tree";
 		container.addClass("row").css("max-width","100%").css("margin-left", "auto").css("margin-right", "auto");
 		imagesContainers[imagesContainerID] = imagesContainers[imagesContainerID] || {
 			cols:{
