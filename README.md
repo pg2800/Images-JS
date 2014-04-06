@@ -18,7 +18,7 @@ A plug-in (function) in the global scope called ImagesJS.
 
 What changed in v1.1.3?  
 Improvements:  
-1. There is a new method added to be able to destroy the container, which ~~empties the container and "unmemoizes" it~~ removes everything about the container (also the container).
+1. There is a new method added to be able to destroy the container, which ~~empties the container and "unmemoizes" it~~ removes everything about the container (including the container).
 2. Margin left and right are set to 'auto' to center the container correctly.  
 3. Fragments are used when using multiple image containers, if one with the same number of cols is repeated, a fragment is used. This is to boost performance when inserting images.  
 
