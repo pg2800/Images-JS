@@ -36,10 +36,15 @@
 	function getObject(imagesContainerID){
 		var parent = imagesContainers[imagesContainerID];
 		return imagesSingletons[imagesContainerID] || (imagesSingletons[imagesContainerID] = {
-			destroy: function (){
+			clear: function (){
 				imagesContainers[imagesContainerID] = undefined;
 				imagesSingletons[imagesContainerID] = undefined;
 				$(imagesContainerID).empty();
+			},
+			destroy: function (){
+				imagesContainers[imagesContainerID] = undefined;
+				imagesSingletons[imagesContainerID] = undefined;
+				$(imagesContainerID).remove();
 			},
 			// Initializes the columns
 			set: function (options){
