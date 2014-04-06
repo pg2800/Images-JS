@@ -22,14 +22,17 @@ Bugs fixed:
 	This allows ImagesJS to correctly display the images in the right collumns, because it uses the actualy height of the column to calculate where the next image goes in.  
 	Also this helps the browser insert images as they are loaded so we don't se empty spaces.  
 2. The container is modified to contain a class of row, a max-width (set to a 100%) for responsiveness sake. It used to go over the boundaries of the document.  
-3. There is a new method added to be able to destroy the container, which empties the container and "unmemoizes" it.
+
 Improvements:  
-4. Margin left and right are set to 'auto' to center the container correctly.  
-5. Fragments are used when using multiple image containers, if one with the same number of cols is repeated, a fragment is used. This is to boost performance when inserting images.  
+3. There is a new method added to be able to destroy the container, which empties the container and "unmemoizes" it.
+4. Images Container and each Image can be switched to be prepend or append. By default it is set to false.
+5. Margin left and right are set to 'auto' to center the container correctly.  
+6. Fragments are used when using multiple image containers, if one with the same number of cols is repeated, a fragment is used. This is to boost performance when inserting images.  
 
 Future improvements:  
 v1.2:  
 1. Feature; prepend besides append. The default of append will be able to change for the container and for every image separately.  
+
 v2.0:  
 2. Performance wise: Fragments are going to be added to insert the images to the DOM. The idea of this library is to actually add a lot of images dynamically, there is a good change that there are a lot of images, so this is going to be added to improve performance.  
 3. Demo with github pages.  
@@ -72,7 +75,10 @@ Simple blueprint example:
 	<script type="text/javascript">
 		<!-- if your site is dynamical, I recommend destroying the container before setting it. -->
 		ImagesJS("#yourChoice").destroy(); 
-		ImagesJS("#yourChoice").set({cols: 4})
+		ImagesJS("#yourChoice").set({
+			cols: 4,
+			prepend: false <!-- by default it is set to false -->
+		})
 		.add({
 			imgSrc:" ... ",
 			imgDesc:"Some Description",
